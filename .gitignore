@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.python-version
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Project
+captures/
+*.jpg
+*.png
+*.log
+
+# Config/secrets
+.env
+config.local.py
