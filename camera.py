@@ -6,6 +6,7 @@ from pathlib import Path
 from config import MOCK_HARDWARE, CAMERA_RESOLUTION, CAPTURES_DIR
 
 if not MOCK_HARDWARE:
+    # noinspection PyUnresolvedReferences
     from picamera2 import Picamera2
 
 
