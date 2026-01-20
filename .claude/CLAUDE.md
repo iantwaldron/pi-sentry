@@ -33,13 +33,16 @@ PIR Motion Detected → Capture Image → Preprocess → Detect Plate Region →
 
 ```
 pi-sentry/
-├── main.py           # Entry point, main loop
-├── camera.py         # Camera capture logic using picamera2
-├── motion.py         # PIR sensor handling
-├── plate_detector.py # License plate detection/OCR
-├── config.py         # GPIO pins, thresholds, paths
-├── requirements.txt  # Python dependencies
-└── captures/         # Saved images (gitignored)
+├── pi_sentry/            # Main package
+│   ├── __init__.py
+│   ├── main.py           # Entry point, main loop
+│   ├── camera.py         # Camera capture logic using picamera2
+│   ├── motion.py         # PIR sensor handling
+│   ├── plate_detector.py # License plate detection/OCR
+│   └── config.py         # GPIO pins, thresholds, paths
+├── Dockerfile            # Dev container (bookworm-slim)
+├── requirements.txt      # Python dependencies
+└── captures/             # Saved images (gitignored)
 ```
 
 ## GPIO Pinout
@@ -66,7 +69,7 @@ sudo apt update && sudo apt install -y python3-picamera2 python3-opencv tesserac
 pip install -r requirements.txt
 
 # Run
-python main.py
+python -m pi_sentry.main
 
 # Test camera
 libcamera-still -o test.jpg
