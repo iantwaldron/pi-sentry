@@ -13,6 +13,8 @@ venv/
 .idea/
 *.swp
 *.swo
+
+# macOS
 .DS_Store
 
 # Project
