@@ -13,6 +13,7 @@ venv/
 .idea/
 *.swp
 *.swo
+.DS_Store
 
 # Project
 captures/
