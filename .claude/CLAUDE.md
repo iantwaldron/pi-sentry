@@ -19,7 +19,11 @@ Motion-triggered license plate reader using a Raspberry Pi Zero W, Pi Camera Mod
 ## Architecture
 
 ```
-PIR Motion Detected → Capture Image → Preprocess → Detect Plate Region → OCR → Log Result
+Core Loop (main.py):
+PIR Motion Detected → Capture Image → LED Blink → Cooldown → Repeat
+
+Post-Processing (optional, not yet implemented):
+Captured Image → Preprocess → Detect Plate Region → OCR → Log Result
 ```
 
 ## Pi Zero Constraints
@@ -35,11 +39,11 @@ PIR Motion Detected → Capture Image → Preprocess → Detect Plate Region →
 pi-sentry/
 ├── pi_sentry/            # Main package
 │   ├── __init__.py
-│   ├── main.py           # Entry point, main loop
-│   ├── camera.py         # Camera capture logic using picamera2
-│   ├── motion.py         # PIR sensor handling
-│   ├── plate_detector.py # License plate detection/OCR
-│   └── config.py         # GPIO pins, thresholds, paths
+│   ├── main.py           # Entry point, motion→capture loop
+│   ├── camera.py         # Camera wrapper (picamera2)
+│   ├── motion.py         # PIR sensor wrapper (RPi.GPIO)
+│   ├── led.py            # Status LED wrapper (RPi.GPIO, thread-safe)
+│   └── config.py         # GPIO pins, camera settings, paths
 ├── Dockerfile            # Dev container (bookworm-slim)
 ├── requirements.txt      # Python dependencies
 └── captures/             # Saved images (gitignored)
@@ -47,9 +51,11 @@ pi-sentry/
 
 ## GPIO Pinout
 
-- PIR OUT → GPIO 17 (pin 11) - configurable in config.py
+- PIR OUT → GPIO 17 (pin 11)
 - PIR VCC → 5V (pin 2)
 - PIR GND → GND (pin 6)
+- LED + → GPIO 22 (pin 15) via resistor
+- LED - → GND (pin 14 or any ground)
 
 ## Development Notes
 
@@ -63,7 +69,7 @@ pi-sentry/
 
 ```bash
 # Install system dependencies (on Pi)
-sudo apt update && sudo apt install -y python3-picamera2 python3-opencv tesseract-ocr
+sudo apt update && sudo apt install -y python3-picamera2 python3-rpi.gpio
 
 # Install Python packages
 pip install -r requirements.txt
@@ -82,4 +88,8 @@ pinout  # shows Pi pinout diagram
 
 - Development can happen on macOS/Linux with mocked hardware
 - Use `MOCK_HARDWARE=1` environment variable to skip GPIO/camera initialization
-- Test plate detection with sample images before deploying to Pi
+- Use Docker container for testing with a proper Python environment:
+  ```bash
+  docker build -t pi-sentry .
+  docker run -it --rm -e MOCK_HARDWARE=1 pi-sentry python -m pi_sentry.main
+  ```
