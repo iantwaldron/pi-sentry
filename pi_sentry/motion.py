@@ -1,13 +1,12 @@
 """PIR motion sensor handling."""
 
 import time
-from typing import Callable
 
 from config import MOCK_HARDWARE, PIR_PIN
 
 if not MOCK_HARDWARE:
-    # noinspection PyUnresolvedReferences
-    # noinspection PyPackageRequirements
+        # noinspection PyUnresolvedReferences
+        # noinspection PyPackageRequirements
     import RPi.GPIO as GPIO
 
 
@@ -24,8 +23,6 @@ class MotionSensor:
         """
         self._pin = pin
         self._calibration_time = calibration_time
-        self._callback = None
-        self._running = False
 
         if not MOCK_HARDWARE:
             GPIO.setmode(GPIO.BCM)
@@ -71,33 +68,13 @@ class MotionSensor:
                 return False
             time.sleep(0.1)  # Polling interval
 
-    def on_motion(self, callback: Callable[[], None]):
-        """
-        Register a callback for motion detection events.
-
-        Args:
-            callback: Function to call when motion is detected.
-        """
-        self._callback = callback
-
-        if not MOCK_HARDWARE:
-            GPIO.add_event_detect(
-                self._pin,
-                GPIO.RISING,
-                callback=lambda _: self._callback(),
-                bouncetime=300  # Debounce in ms
-            )
-
     def start(self):
         """Start monitoring for motion."""
-        self._running = True
         print(f"Motion sensor active on GPIO {self._pin}")
 
     def stop(self):
-        """Stop monitoring and cleanup GPIO."""
-        self._running = False
-        if not MOCK_HARDWARE:
-            GPIO.remove_event_detect(self._pin)
+        """Stop monitoring."""
+        pass
 
     def cleanup(self):
         """Release GPIO resources."""
