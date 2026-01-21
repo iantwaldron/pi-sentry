@@ -8,6 +8,7 @@ MOCK_HARDWARE = os.environ.get("MOCK_HARDWARE", "0") == "1"
 
 # GPIO pins
 PIR_PIN = 17  # GPIO 17 (physical pin 11)
+LED_PIN = 22  # GPIO 22 (physical pin 15) - status LED
 
 # Camera settings
 CAMERA_RESOLUTION = (1280, 720)  # Keep reasonable for Pi Zero
