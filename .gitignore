@@ -22,6 +22,7 @@ captures/
 *.jpg
 *.png
 *.log
+!/docs/*
 
 # Config/secrets
 .env
