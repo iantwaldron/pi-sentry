@@ -1,4 +1,10 @@
 # Pi-Sentry
+A motion-activated surveillance system.
+
+## Hardware
+* Raspberry Pi Zero W
+* PIR Motion Sensor
+* LED
 
 ## Schematic
 ![Schematic](/docs/pi-sentry-schematic.png)
