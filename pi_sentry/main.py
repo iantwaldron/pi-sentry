@@ -1,7 +1,6 @@
 """Pi Sentry - Motion-triggered camera capture."""
 
 import signal
-import sys
 import time
 
 from camera import Camera
@@ -10,8 +9,13 @@ from led import StatusLED
 from motion import MotionSensor
 
 
+_shutdown_requested = False
+
+
 def main():
     """Main entry point - motion detection loop."""
+    global _shutdown_requested
+
     print("Pi Sentry starting...")
     if MOCK_HARDWARE:
         print("[MOCK MODE] Hardware simulation enabled")
@@ -20,14 +24,12 @@ def main():
     camera = Camera()
     sensor = MotionSensor()
 
-    # Graceful shutdown handler
+    # Graceful shutdown handler - just sets flag, cleanup happens in finally
+    # noinspection PyUnusedLocal
     def shutdown(signum, frame):
+        global _shutdown_requested
         print("\nShutting down...")
-        sensor.stop()
-        sensor.cleanup()
-        camera.stop()
-        led.cleanup()
-        sys.exit(0)
+        _shutdown_requested = True
 
     signal.signal(signal.SIGINT, shutdown)
     signal.signal(signal.SIGTERM, shutdown)
@@ -41,7 +43,7 @@ def main():
 
         print("Monitoring for motion... (Ctrl+C to exit)")
 
-        while True:
+        while not _shutdown_requested:
             if sensor.wait_for_motion(timeout=1.0):
                 print("Motion detected!")
 
