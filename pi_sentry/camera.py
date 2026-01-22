@@ -1,9 +1,12 @@
 """Camera capture logic using picamera2."""
 
+import logging
 import time
 from pathlib import Path
 
 from config import MOCK_HARDWARE, CAMERA_RESOLUTION, CAPTURES_DIR
+
+logger = logging.getLogger(__name__)
 
 if not MOCK_HARDWARE:
     # noinspection PyUnresolvedReferences
@@ -53,10 +56,10 @@ class Camera:
         if MOCK_HARDWARE:
             # Create a placeholder file for testing
             filepath.touch()
-            print(f"[MOCK] Would capture image to {filepath}")
+            logger.debug("Mock capture: %s", filepath)
         else:
             self._camera.capture_file(str(filepath))
-            print(f"Captured image to {filepath}")
+            logger.debug("Captured: %s", filepath)
 
         return filepath
 

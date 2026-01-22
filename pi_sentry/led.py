@@ -1,9 +1,12 @@
 """Status LED control."""
 
+import logging
 import time
 import threading
 
 from config import MOCK_HARDWARE, LED_PIN
+
+logger = logging.getLogger(__name__)
 
 if not MOCK_HARDWARE:
     # noinspection PyUnresolvedReferences
@@ -33,7 +36,7 @@ class StatusLED:
         """Turn LED on."""
         with self._lock:
             if MOCK_HARDWARE:
-                print("[MOCK] LED on")
+                logger.debug("LED on")
             else:
                 GPIO.output(self._pin, GPIO.HIGH)
 
@@ -41,7 +44,7 @@ class StatusLED:
         """Turn LED off."""
         with self._lock:
             if MOCK_HARDWARE:
-                print("[MOCK] LED off")
+                logger.debug("LED off")
             else:
                 GPIO.output(self._pin, GPIO.LOW)
 

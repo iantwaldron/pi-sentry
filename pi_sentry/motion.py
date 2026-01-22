@@ -1,12 +1,15 @@
 """PIR motion sensor handling."""
 
+import logging
 import time
 
 from config import MOCK_HARDWARE, PIR_PIN
 
+logger = logging.getLogger(__name__)
+
 if not MOCK_HARDWARE:
-        # noinspection PyUnresolvedReferences
-        # noinspection PyPackageRequirements
+    # noinspection PyUnresolvedReferences
+    # noinspection PyPackageRequirements
     import RPi.GPIO as GPIO
 
 
@@ -30,9 +33,9 @@ class MotionSensor:
 
     def calibrate(self):
         """Wait for PIR sensor to calibrate on power-up."""
-        print(f"Calibrating PIR sensor ({self._calibration_time}s)...")
+        logger.info("Calibrating PIR sensor (%.0fs)...", self._calibration_time)
         time.sleep(self._calibration_time)
-        print("PIR sensor ready")
+        logger.info("PIR sensor ready")
 
     def motion_detected(self) -> bool:
         """
@@ -56,7 +59,7 @@ class MotionSensor:
             True if motion was detected, False if timeout.
         """
         if MOCK_HARDWARE:
-            print("[MOCK] Simulating motion detection...")
+            logger.debug("Simulating motion detection")
             time.sleep(2.0)
             return True
 
@@ -70,7 +73,7 @@ class MotionSensor:
 
     def start(self):
         """Start monitoring for motion."""
-        print(f"Motion sensor active on GPIO {self._pin}")
+        logger.debug("Motion sensor active on GPIO %d", self._pin)
 
     def stop(self):
         """Stop monitoring."""

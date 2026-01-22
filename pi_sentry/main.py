@@ -1,5 +1,6 @@
 """Pi Sentry - Motion-triggered camera capture."""
 
+import logging
 import signal
 import time
 
@@ -8,6 +9,7 @@ from config import CAPTURE_COOLDOWN, MOCK_HARDWARE
 from led import StatusLED
 from motion import MotionSensor
 
+logger = logging.getLogger(__name__)
 
 _shutdown_requested = False
 
@@ -16,9 +18,9 @@ def main():
     """Main entry point - motion detection loop."""
     global _shutdown_requested
 
-    print("Pi Sentry starting...")
+    logger.info("Pi Sentry starting")
     if MOCK_HARDWARE:
-        print("[MOCK MODE] Hardware simulation enabled")
+        logger.warning("Mock hardware mode enabled")
 
     led = StatusLED()
     camera = Camera()
@@ -28,7 +30,7 @@ def main():
     # noinspection PyUnusedLocal
     def shutdown(signum, frame):
         global _shutdown_requested
-        print("\nShutting down...")
+        logger.info("Shutdown requested")
         _shutdown_requested = True
 
     signal.signal(signal.SIGINT, shutdown)
@@ -41,30 +43,31 @@ def main():
         camera.start()
         led.blink(count=2)  # Ready signal
 
-        print("Monitoring for motion... (Ctrl+C to exit)")
+        logger.info("Monitoring for motion (Ctrl+C to exit)")
 
         while not _shutdown_requested:
             if sensor.wait_for_motion(timeout=1.0):
-                print("Motion detected!")
+                logger.info("Motion detected")
 
                 # Capture and signal
                 filepath = camera.capture()
                 led.blink()
 
-                print(f"Saved: {filepath}")
+                logger.info("Saved: %s", filepath)
 
                 # Cooldown to prevent overheating
                 time.sleep(CAPTURE_COOLDOWN)
             # No motion - loop continues
 
     except Exception as e:
-        print(f"Error: {e}")
+        logger.exception("Unexpected error: %s", e)
         raise
     finally:
         sensor.stop()
         sensor.cleanup()
         camera.stop()
         led.cleanup()
+        logger.info("Shutdown complete")
 
 
 if __name__ == "__main__":
