@@ -4,8 +4,9 @@ import logging
 import signal
 import time
 
+from api import CaptureUploader
 from camera import Camera
-from config import CAPTURE_COOLDOWN, MOCK_HARDWARE
+from config import API_UPLOAD_ENABLED, CAPTURE_COOLDOWN, MOCK_HARDWARE
 from led import StatusLED
 from motion import MotionSensor
 
@@ -25,6 +26,7 @@ def main():
     led = StatusLED()
     camera = Camera()
     sensor = MotionSensor()
+    uploader = CaptureUploader() if API_UPLOAD_ENABLED else None
 
     # Graceful shutdown handler - just sets flag, cleanup happens in finally
     # noinspection PyUnusedLocal
@@ -54,6 +56,10 @@ def main():
                 led.blink()
 
                 logger.info("Saved: %s", filepath)
+
+                # Upload to API
+                if uploader:
+                    uploader.upload(filepath)
 
                 # Cooldown to prevent overheating
                 time.sleep(CAPTURE_COOLDOWN)

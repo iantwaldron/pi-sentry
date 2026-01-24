@@ -28,3 +28,9 @@ CAPTURES_DIR = PROJECT_ROOT / "captures"
 
 # Ensure captures directory exists
 CAPTURES_DIR.mkdir(exist_ok=True)
+
+# API settings
+API_ENDPOINT = "https://sentry.nullpixels.com/capture"
+API_KEY = ""  # Set your API key here
+API_UPLOAD_ENABLED = True  # Set False to disable uploads
+API_TIMEOUT = 30.0  # Request timeout in seconds
