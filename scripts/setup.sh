@@ -15,8 +15,15 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Install system dependencies
-"$SCRIPT_DIR/dependencies.sh"
+# Install system packages
+echo "Installing system packages..."
+apt update
+apt install -y \
+    python3-pip \
+    python3-venv \
+    git \
+    python3-picamera2 \
+    python3-rpi-lgpio
 
 # Create venv with access to system site-packages (required for picamera2)
 echo "Creating virtual environment..."
