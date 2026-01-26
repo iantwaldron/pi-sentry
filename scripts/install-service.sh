@@ -20,7 +20,7 @@ Type=simple
 User=$APP_USER
 WorkingDirectory=$APP_DIR
 Environment=PYTHONUNBUFFERED=1
-ExecStart=$APP_ENV/python3 pi_sentry/main.py
+ExecStart=$APP_ENV/python3 -m pi_sentry/main
 Restart=always
 RestartSec=5s
 # hardening
