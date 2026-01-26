@@ -10,8 +10,9 @@ A motion-activated surveillance system.
 ### Setup
 ```bash
 # Clone the repository
-git clone <repo-url> ~/pi-sentry
-cd ~/pi-sentry
+cd ~
+git clone <repo-url>
+cd pi-sentry
 
 # Install dependencies, create venv, and configure environment
 sudo bash scripts/setup.sh
