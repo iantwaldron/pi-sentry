@@ -38,5 +38,9 @@ echo "Installing Python requirements..."
 sudo -u "$APP_USER" "$VENV_DIR/bin/pip" install --upgrade pip
 sudo -u "$APP_USER" "$VENV_DIR/bin/pip" install -r "$APP_DIR/requirements.txt"
 
+# Create captures directory
+echo "Creating captures directory..."
+sudo -u "$APP_USER" mkdir -p "$CAPTURES_DIR"
+
 echo ""
 echo "=== Setup complete ==="
