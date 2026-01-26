@@ -21,7 +21,6 @@ apt update
 apt install -y \
     python3-pip \
     python3-venv \
-    git \
     python3-picamera2 \
     python3-rpi-lgpio
 
