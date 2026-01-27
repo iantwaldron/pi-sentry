@@ -4,9 +4,9 @@ import logging
 import os
 import sys
 
-from config import LOG_FORMAT, LOG_DATE_FORMAT, LOG_LEVEL
-from led import StatusLED
-from main import main
+from .config import LOG_FORMAT, LOG_DATE_FORMAT, LOG_LEVEL
+from .led import StatusLED
+from .main import main
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
 logger = logging.getLogger(__name__)

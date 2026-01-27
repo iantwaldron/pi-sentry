@@ -3,7 +3,7 @@
 import logging
 import time
 
-from config import MOCK_HARDWARE, PIR_PIN
+from .config import MOCK_HARDWARE, PIR_PIN
 
 logger = logging.getLogger(__name__)
 
