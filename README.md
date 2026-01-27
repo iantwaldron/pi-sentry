@@ -31,6 +31,18 @@ git pull
 sudo systemctl restart pi-sentry
 ```
 
+### Logs
+```bash
+# Follow logs in real-time
+journalctl -u pi-sentry -f
+
+# Recent logs
+journalctl -u pi-sentry -n 50
+
+# Logs since last boot
+journalctl -u pi-sentry -b
+```
+
 ## Scripts
 
 | Script | Purpose |
