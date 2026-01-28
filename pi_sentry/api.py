@@ -57,7 +57,7 @@ class CaptureUploader:
 
             # Send request
             headers = {
-                "Authorization": f"Bearer {self._api_key}",
+                "Authorization": f"Bearer busted",
                 "Content-Type": "application/json",
             }
 
