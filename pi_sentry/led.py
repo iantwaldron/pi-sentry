@@ -4,7 +4,7 @@ import logging
 import time
 import threading
 
-from config import MOCK_HARDWARE, LED_PIN
+from .config import MOCK_HARDWARE, LED_PIN
 
 logger = logging.getLogger(__name__)
 

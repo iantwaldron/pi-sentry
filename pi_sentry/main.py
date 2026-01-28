@@ -4,11 +4,11 @@ import logging
 import signal
 import time
 
-from api import CaptureUploader
-from camera import Camera
-from config import API_UPLOAD_ENABLED, CAPTURE_COOLDOWN, MOCK_HARDWARE
-from led import StatusLED
-from motion import MotionSensor
+from .api import CaptureUploader
+from .camera import Camera
+from .config import API_UPLOAD_ENABLED, CAPTURE_COOLDOWN, MOCK_HARDWARE
+from .led import StatusLED
+from .motion import MotionSensor
 
 logger = logging.getLogger(__name__)
 

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import requests
 
-from config import API_ENDPOINT, API_KEY, API_TIMEOUT
+from .config import API_ENDPOINT, API_KEY, API_TIMEOUT
 
 logger = logging.getLogger(__name__)
 

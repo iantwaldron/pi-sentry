@@ -4,7 +4,7 @@ import logging
 import time
 from pathlib import Path
 
-from config import MOCK_HARDWARE, CAMERA_RESOLUTION, CAPTURES_DIR
+from .config import MOCK_HARDWARE, CAMERA_RESOLUTION, CAPTURES_DIR
 
 logger = logging.getLogger(__name__)
 

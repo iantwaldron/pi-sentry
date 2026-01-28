@@ -24,10 +24,12 @@ CAPTURE_COOLDOWN = 5.0  # Seconds between captures to prevent Pi Zero overheatin
 
 # Paths
 PROJECT_ROOT = Path(__file__).parent
-CAPTURES_DIR = PROJECT_ROOT / "captures"
+APP_DIR = PROJECT_ROOT.parent  # The pi-sentry repo root
+CAPTURES_DIR = APP_DIR.parent / "captures"  # /home/pi/captures - same level as app
 
-# Ensure captures directory exists
-CAPTURES_DIR.mkdir(exist_ok=True)
+# Verify captures directory exists (created by setup.sh)
+if not CAPTURES_DIR.exists():
+    raise RuntimeError(f"Captures directory not found: {CAPTURES_DIR}")
 
 # API settings
 API_ENDPOINT = "https://sentry.nullpixels.com/capture"
